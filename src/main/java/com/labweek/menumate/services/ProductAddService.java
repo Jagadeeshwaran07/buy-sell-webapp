@@ -21,6 +21,7 @@ public class ProductAddService {
                 .productName(newProductDto.getProductName())
                 .description(newProductDto.getDescription())
                 .purchaseDate(newProductDto.getPurchaseDate())
+                .userName((newProductDto.getUserName())) //username
                 .price(newProductDto.getPrice())
                 .dateListed(LocalDate.now())
                 .image(newProductDto.getImage()) // Set the image (byte array)
@@ -34,6 +35,7 @@ public class ProductAddService {
         NewProductDto savedProductDto = new NewProductDto();
         savedProductDto.setProductName(savedProduct.getProductName());
         savedProductDto.setDescription(savedProduct.getDescription());
+        savedProductDto.setUserName(savedProduct.getUserName());
         savedProductDto.setPrice(savedProduct.getPrice());
         savedProductDto.setPurchaseDate(savedProduct.getPurchaseDate());
         savedProductDto.setDateListed(savedProduct.getDateListed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

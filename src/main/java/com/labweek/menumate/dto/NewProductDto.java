@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class NewProductDto {
+
+    private String userName;
     private String productName;
     private String description;
     private String purchaseDate;
