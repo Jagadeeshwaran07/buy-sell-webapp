@@ -1,6 +1,7 @@
 package com.labweek.menumate.services;
 
 import com.labweek.menumate.dto.CredentialsDto;
+import com.labweek.menumate.dto.NewProductDto;
 import com.labweek.menumate.dto.SignUpDto;
 import com.labweek.menumate.dto.UserDto;
 import com.labweek.menumate.entity.UserEntity;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
     public UserDto findByEmail(String email){
 
         UserEntity appuser = userRepo.findByEmail(email)
@@ -51,12 +53,12 @@ public class UserService {
         }
 
         UserEntity appUser = userMapper.signUpToUser(signUpUserDto);
-
         appUser.setPassword(passwordEncoder.encode(signUpUserDto.getPassword()));;
-
         UserEntity savedUser = userRepo.save(appUser);
 
         return userMapper.toUserDto(appUser);
-
     }
+
+
+
 }

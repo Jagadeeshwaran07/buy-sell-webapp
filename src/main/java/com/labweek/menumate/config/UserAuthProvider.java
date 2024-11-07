@@ -22,7 +22,7 @@ import java.util.Date;
 public class UserAuthProvider {
 
     @Value("${security.jwt.token.secret-key: secret-value}")
-    private String secretKey;
+    String secretKey;
 
     private final UserService userService;
 
@@ -34,7 +34,7 @@ public class UserAuthProvider {
 
     public String createToken(String email){
         Date now = new Date();
-        Date validity = new Date(now.getTime() + 3_600_000);
+        Date validity = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
         return JWT.create()
                 .withIssuer(email)
