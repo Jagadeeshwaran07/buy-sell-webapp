@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Table( name = "productlist")
 
 public class NewProductEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,11 +28,17 @@ public class NewProductEntity {
     @Column(name = "purchasedate", nullable = false)
     private String purchaseDate;
 
-    @Column(name = "listeddate", nullable = false)
-    private String listedDate;
+    @Column(name = "datelisted", nullable = false)
+    private LocalDate dateListed;
 
     @Column(name = "price", nullable = false)
     private String price;
+
+//    @Column(name = "category", nullable =false)
+//    private String category;
+
+    @Column(name = "category", nullable = false)
+    private String category;
 
     @Lob
     @Column(name = "image", nullable = true)

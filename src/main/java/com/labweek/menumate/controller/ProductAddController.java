@@ -25,11 +25,14 @@ public class ProductAddController {
             @RequestParam("productName") String productName,
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
-            @RequestParam("listedDate") String listedDate,
-          //  @RequestParam(value = "listedDate", required = false) String listedDate,
+            @RequestParam(value = "dateListed", required = false) String dateListed,
             @RequestParam("price") String price,
+            @RequestParam("category") String category,
             @RequestParam("image") MultipartFile image) {
 
+        if (dateListed == null || dateListed.isEmpty()) {
+            dateListed = LocalDate.now().toString();
+        }
 
        //  listedDate = LocalDate.now().toString();  // Use current date as default
 
@@ -46,9 +49,10 @@ public class ProductAddController {
                 .productName(productName)
                 .description(description)
                 .purchaseDate(purchaseDate)
-                .listedDate(listedDate)
+                .dateListed(dateListed)
                 .price(price)
-                .image(imageBytes) // Add image data
+                .image(imageBytes)// Add image data
+                .category(category)
                 .build();
 
         // Call the service to add the product

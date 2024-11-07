@@ -14,10 +14,10 @@ public class NewProductDto {
     private String productName;
     private String description;
     private String purchaseDate;
-    private String listedDate;
+    private String dateListed;
     private String price;
     private byte[] image;
-  // private String image;
+    private String category;
 
 
     // Getters and Setters

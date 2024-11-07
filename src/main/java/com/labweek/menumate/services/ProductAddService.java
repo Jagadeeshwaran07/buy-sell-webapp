@@ -22,8 +22,9 @@ public class ProductAddService {
                 .description(newProductDto.getDescription())
                 .purchaseDate(newProductDto.getPurchaseDate())
                 .price(newProductDto.getPrice())
-                .listedDate(LocalDate.now().format(DateTimeFormatter.ISO_DATE))
+                .dateListed(LocalDate.now())
                 .image(newProductDto.getImage()) // Set the image (byte array)
+                .category(newProductDto.getCategory())
                 .build();
 
         // Save to database
@@ -33,10 +34,11 @@ public class ProductAddService {
         NewProductDto savedProductDto = new NewProductDto();
         savedProductDto.setProductName(savedProduct.getProductName());
         savedProductDto.setDescription(savedProduct.getDescription());
+        savedProductDto.setPrice(savedProduct.getPrice());
         savedProductDto.setPurchaseDate(savedProduct.getPurchaseDate());
-        savedProductDto.setListedDate(savedProduct.getListedDate());
-        savedProductDto.setImage(savedProduct.getImage()); // Add image field in the DTO
-
+        savedProductDto.setDateListed(savedProduct.getDateListed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        savedProductDto.setImage(savedProduct.getImage());// Add image field in the DTO
+        savedProductDto.setCategory(savedProduct.getCategory());
 
         return savedProductDto;
     }
