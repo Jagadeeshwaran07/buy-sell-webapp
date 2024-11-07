@@ -22,6 +22,7 @@ public class ProductAddController {
 
     @PostMapping("/add")
     public ResponseEntity<NewProductDto> addProduct(
+            @RequestParam("userName") String userName,
             @RequestParam("productName") String productName,
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
@@ -34,9 +35,6 @@ public class ProductAddController {
             dateListed = LocalDate.now().toString();
         }
 
-       //  listedDate = LocalDate.now().toString();  // Use current date as default
-
-        // Convert MultipartFile to byte[]
         byte[] imageBytes = null;
         try {
             imageBytes = image.getBytes();
@@ -46,6 +44,7 @@ public class ProductAddController {
 
         // Create DTO with image bytes
         NewProductDto newProductDto = NewProductDto.builder()
+                .userName(userName)
                 .productName(productName)
                 .description(description)
                 .purchaseDate(purchaseDate)
