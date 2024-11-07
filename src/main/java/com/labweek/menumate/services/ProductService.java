@@ -5,15 +5,32 @@ import com.labweek.menumate.entity.NewProductEntity;
 import com.labweek.menumate.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ProductAddService {
+public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+
+    public boolean deleteProductById(Long productId) {
+        // Check if the product exists
+        Optional<NewProductEntity> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            // If the product exists, delete it
+            productRepository.deleteById(productId);
+            return true;
+        }
+        return false;
+    }
+
+
 
     public NewProductDto addProduct(NewProductDto newProductDto) {
         // Convert NewProductDto to NewProductEntity
@@ -44,4 +61,7 @@ public class ProductAddService {
 
         return savedProductDto;
     }
+    @Transactional
+    public List<NewProductEntity> getProductsByCategory(String category) {
+        return productRepository.findByCategory(category);}
 }
