@@ -17,7 +17,7 @@ public class NewProductDto {
     private String description;
     private String purchaseDate;
     private String dateListed;
-    private String price;
+    private Double price;
     private byte[] image;
     private String category;
 

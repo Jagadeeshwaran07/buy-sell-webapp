@@ -2,6 +2,7 @@ package com.labweek.menumate.services;
 
 import com.labweek.menumate.dto.NewProductDto;
 import com.labweek.menumate.entity.NewProductEntity;
+import com.labweek.menumate.exceptions.NoProductFoundException;
 import com.labweek.menumate.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,10 @@ public class ProductService {
                 .productName(newProductDto.getProductName())
                 .description(newProductDto.getDescription())
                 .purchaseDate(newProductDto.getPurchaseDate())
-                .userName((newProductDto.getUserName())) //username
-                .price(newProductDto.getPrice())
+                .userName(newProductDto.getUserName())
+                .price(newProductDto.getPrice())  // Use Double for price
                 .dateListed(LocalDate.now())
-                .image(newProductDto.getImage()) // Set the image (byte array)
+                .image(newProductDto.getImage())
                 .category(newProductDto.getCategory())
                 .build();
 
@@ -53,15 +54,47 @@ public class ProductService {
         savedProductDto.setProductName(savedProduct.getProductName());
         savedProductDto.setDescription(savedProduct.getDescription());
         savedProductDto.setUserName(savedProduct.getUserName());
-        savedProductDto.setPrice(savedProduct.getPrice());
+        savedProductDto.setPrice(savedProduct.getPrice());  // Use Double for price
         savedProductDto.setPurchaseDate(savedProduct.getPurchaseDate());
         savedProductDto.setDateListed(savedProduct.getDateListed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        savedProductDto.setImage(savedProduct.getImage());// Add image field in the DTO
+        savedProductDto.setImage(savedProduct.getImage());
         savedProductDto.setCategory(savedProduct.getCategory());
 
         return savedProductDto;
     }
+
     @Transactional
     public List<NewProductEntity> getProductsByCategory(String category) {
         return productRepository.findByCategory(category);}
+
+    // New method to get recently listed products
+    @Transactional
+    public List<NewProductEntity> getRecentlyListedProducts() {
+        return productRepository.findAllByOrderByDateListedDesc();
+    }
+
+    // Search for products by a keyword
+    @Transactional
+    public List<NewProductEntity> searchProducts(String keyword) {
+        List<NewProductEntity> products = productRepository.searchProductsByName(keyword);
+
+        if (products.isEmpty()) {
+            throw new NoProductFoundException("No products exist with the provided keyword: " + keyword);
+        }
+
+        return products;
+    }
+
+    // Method to get products sorted by price (low to high)
+    @Transactional
+    public List<NewProductEntity> getProductsSortedByPriceAsc() {
+        return productRepository.findAllByOrderByPriceAsc();  // Ascending order by price
+    }
+
+    // Method to get products sorted by price (high to low)
+    @Transactional
+    public List<NewProductEntity> getProductsSortedByPriceDesc() {
+        return productRepository.findAllByOrderByPriceDesc();  // Descending order by price
+    }
+
 }

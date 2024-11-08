@@ -39,10 +39,11 @@ public class ProductController {
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
             @RequestParam(value = "dateListed", required = false) String dateListed,
-            @RequestParam("price") String price,
+            @RequestParam("price") Double price,  // Change to Double
             @RequestParam("category") String category,
             @RequestParam("image") MultipartFile image) {
-            System.out.println("kko");
+
+        System.out.println("kko");
 
         if (dateListed == null || dateListed.isEmpty()) {
             dateListed = LocalDate.now().toString();
@@ -63,8 +64,8 @@ public class ProductController {
                 .description(description)
                 .purchaseDate(purchaseDate)
                 .dateListed(dateListed)
-                .price(price)
-                .image(imageBytes)// Add image data
+                .price(price)  // Use Double here
+                .image(imageBytes)
                 .category(category)
                 .build();
 
@@ -85,4 +86,49 @@ public class ProductController {
             }
         // Return the list of products found for the category
         return ResponseEntity.ok(products);}
+
+
+    // New endpoint to get recently listed products
+    @GetMapping("/recent")
+    public ResponseEntity<List<NewProductEntity>> getRecentlyListedProducts() {
+        List<NewProductEntity> recentProducts = productService.getRecentlyListedProducts();
+        return recentProducts.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(recentProducts);
+    }
+
+    // New endpoint for searching products by keyword
+    @GetMapping("/search")
+    public ResponseEntity<List<NewProductEntity>> searchProducts(@RequestParam("keyword") String keyword) {
+        List<NewProductEntity> searchResults = productService.searchProducts(keyword);
+        return searchResults.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(searchResults);
+    }
+
+//    // Endpoint to get products sorted by price (low to high)
+//    @GetMapping("/sort/price/asc")
+//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceAsc() {
+//        List<NewProductEntity> products = productService.getProductsSortedByPriceAsc();
+//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
+//    }
+//
+//    // Endpoint to get products sorted by price (high to low)
+//    @GetMapping("/sort/price/desc")
+//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceDesc() {
+//        List<NewProductEntity> products = productService.getProductsSortedByPriceDesc();
+//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
+//    }
+
+    @GetMapping("/sort/price")
+    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPrice(
+            @RequestParam(value = "order", defaultValue = "asc") String order) {
+        List<NewProductEntity> products;
+
+        if ("desc".equalsIgnoreCase(order)) {
+            products = productService.getProductsSortedByPriceDesc();
+        } else {
+            products = productService.getProductsSortedByPriceAsc();
+        }
+
+        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
+    }
+
+
 }

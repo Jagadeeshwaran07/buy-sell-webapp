@@ -35,7 +35,7 @@ public class NewProductEntity {
     private LocalDate dateListed;
 
     @Column(name = "price", nullable = false)
-    private String price;
+    private Double price;
 
 //    @Column(name = "category", nullable =false)
 //    private String category;
