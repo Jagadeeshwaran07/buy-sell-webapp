@@ -44,7 +44,7 @@ public class NewProductEntity {
     private String category;
 
     @Lob
-    @Column(name = "image", nullable = true)
-    private byte[] image; // Store the image as a byte array
+    @Column(name = "image", nullable = false)
+    private String image; // Store the image as a byte array
 
 }
