@@ -2,6 +2,7 @@ package com.labweek.menumate.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -43,8 +44,12 @@ public class NewProductEntity {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @Lob
+
+  //  @Basic(fetch = FetchType.EAGER)
     @Column(name = "image", nullable = false)
-    private String image; // Store the image as a byte array
+    private String image;
+
+    // private byte[] image; // Store the image as a byte array
+
 
 }

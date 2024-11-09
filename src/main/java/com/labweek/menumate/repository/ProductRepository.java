@@ -1,6 +1,7 @@
 package com.labweek.menumate.repository;
 
 import com.labweek.menumate.entity.NewProductEntity;
+import com.labweek.menumate.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<NewProductEntity, Long> {
     // Custom query methods can be added if needed
     List<NewProductEntity> findByCategory(String category);
+    List<NewProductEntity> findByUserName(String userName);
 
     // Fetch recently listed products, ordered by dateListed descending
     List<NewProductEntity> findAllByOrderByDateListedDesc();
