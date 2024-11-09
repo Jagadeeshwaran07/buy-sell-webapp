@@ -91,7 +91,7 @@ public class ProductController {
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
             @RequestParam(value = "dateListed", required = false) String dateListed,
-            @RequestParam("price") String price,
+            @RequestParam("price") Double price,
             @RequestParam("category") String category,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 

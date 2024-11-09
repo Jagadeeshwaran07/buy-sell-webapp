@@ -159,7 +159,9 @@ public class ProductService {
                     .build();
         } else {
             return null; // Product not found
+        }
 
+}
     // New method to get recently listed products
     @Transactional
     public List<NewProductEntity> getRecentlyListedProducts() {
@@ -189,6 +191,4 @@ public class ProductService {
     public List<NewProductEntity> getProductsSortedByPriceDesc() {
         return productRepository.findAllByOrderByPriceDesc();  // Descending order by price
     }
-
-        }
-}}
+}
