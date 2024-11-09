@@ -1,6 +1,5 @@
 package com.labweek.menumate.controller;
 
-
 import com.labweek.menumate.dto.NewProductDto;
 import com.labweek.menumate.entity.NewProductEntity;
 import com.labweek.menumate.services.ProductService;
@@ -9,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,21 +18,12 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
+    private ProductService.S3Service s3Service;
+
+    @Autowired
     private ProductService productService; // private ProductService productAddService;
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(
-            @PathVariable Long productId)
-    {
-        System.out.println("kko");
-        boolean isDeleted = productService.deleteProductById(productId);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
+    // CREATING!!
     @PostMapping("/add")
     public ResponseEntity<NewProductDto> addProduct(
             @RequestParam("userName") String userName,
@@ -42,19 +34,29 @@ public class ProductController {
             @RequestParam("price") String price,
             @RequestParam("category") String category,
             @RequestParam("image") MultipartFile image) {
-            System.out.println("kko");
+        System.out.println("CREATING");
 
         if (dateListed == null || dateListed.isEmpty()) {
             dateListed = LocalDate.now().toString();
         }
 
-        byte[] imageBytes = null;
+
+        String imageUrl = null;
         try {
-            imageBytes = image.getBytes();
+            // Upload the image to S3 and get the URL
+            imageUrl = s3Service.uploadFile(image);
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle error if image conversion fails
+            return ResponseEntity.status(500).body(null);  // Handle error if image upload fails
         }
+
+
+//        Blob imageBlob = null;
+//        try {
+//            imageBlob = new SerialBlob(image.getBytes());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         // Create DTO with image bytes
         NewProductDto newProductDto = NewProductDto.builder()
@@ -64,7 +66,7 @@ public class ProductController {
                 .purchaseDate(purchaseDate)
                 .dateListed(dateListed)
                 .price(price)
-                .image(imageBytes)// Add image data
+                .image(imageUrl)// Add image data
                 .category(category)
                 .build();
 
@@ -73,6 +75,95 @@ public class ProductController {
 
         return ResponseEntity.ok(addedProduct);
     }
+
+    // READING!!!
+    @GetMapping("/{productId}")
+    public ResponseEntity<NewProductDto> getProductById(@PathVariable Long productId) {
+        NewProductDto product = productService.getProductById(productId);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // UPDATING!!!!
+
+  //  @PutMapping("/{productId}")
+  @PutMapping("/{productId}")
+    public ResponseEntity<NewProductDto> updateProduct(
+            @PathVariable Long productId,
+            @RequestParam("userName") String userName,
+            @RequestParam("productName") String productName,
+            @RequestParam("description") String description,
+            @RequestParam("purchaseDate") String purchaseDate,
+            @RequestParam(value = "dateListed", required = false) String dateListed,
+            @RequestParam("price") String price,
+            @RequestParam("category") String category,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+
+        System.out.println("UPDATING");
+
+        if (dateListed == null || dateListed.isEmpty()) {
+            dateListed = LocalDate.now().toString();
+        }
+
+      String imageUrl = null;
+      try {
+          // Upload the image to S3 and get the URL
+          imageUrl = s3Service.uploadFile(image);
+      } catch (Exception e) {
+          e.printStackTrace();
+          return ResponseEntity.status(500).body(null);  // Handle error if image upload fails
+      }
+
+//      Blob imageBlob = null;
+//      if (image != null) {
+//          try {
+//              imageBlob = new SerialBlob(image.getBytes());
+//          } catch (Exception e) {
+//              e.printStackTrace();
+//          }
+//      }
+
+        // Create DTO with image bytes
+        NewProductDto updatedProductDto = NewProductDto.builder()
+                .userName(userName)
+                .productName(productName)
+                .description(description)
+                .purchaseDate(purchaseDate)
+                .dateListed(dateListed)
+                .price(price)
+                .category(category)
+                .image(imageUrl)
+                .build();
+
+        // Call the service to update the product
+        NewProductDto updatedProduct = productService.updateProduct(productId, updatedProductDto);
+
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // DELETING!!!!
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable Long productId)
+    {
+        System.out.println("DELETING");
+        boolean isDeleted = productService.deleteProductById(productId);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //FILTERING
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<NewProductEntity>> getProductsByCategory(@PathVariable String category) {
@@ -85,4 +176,5 @@ public class ProductController {
             }
         // Return the list of products found for the category
         return ResponseEntity.ok(products);}
+
 }

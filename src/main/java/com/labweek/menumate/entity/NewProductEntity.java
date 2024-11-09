@@ -2,7 +2,9 @@ package com.labweek.menumate.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Blob;
 import java.time.LocalDate;
 
 @Entity
@@ -43,8 +45,13 @@ public class NewProductEntity {
     @Column(name = "category", nullable = false)
     private String category;
 
+
     @Lob
-    @Column(name = "image", nullable = true)
-    private byte[] image; // Store the image as a byte array
+  //  @Basic(fetch = FetchType.EAGER)
+    @Column(name = "image", nullable = false)
+    private String image;
+
+    // private byte[] image; // Store the image as a byte array
+
 
 }
