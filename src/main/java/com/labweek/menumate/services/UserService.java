@@ -8,7 +8,6 @@ import com.labweek.menumate.entity.NewProductEntity;
 import com.labweek.menumate.entity.UserEntity;
 import com.labweek.menumate.exceptions.AppException;
 import com.labweek.menumate.mappers.UserMapper;
-import com.labweek.menumate.repository.ProductRepository;
 import com.labweek.menumate.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.CharBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    private ProductRepository productRepository;
     private final UserRepo userRepo;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -75,9 +72,9 @@ public class UserService {
 
     // Fetch products for a specific user (based on the username)
     @Transactional
-    public List<NewProductDto> getProductsByUser(String userName) {
+    public List<NewProductDto> getProductsByUser(String ntId) {
         // Fetch products from the repository using the user's username
-        List<NewProductEntity> products = productRepository.findByUserName(userName);
+        List<NewProductEntity> products = userRepo.findByNtId(ntId);
         System.out.println(products);
         // Convert the entity list to DTOs and return
         return products.stream()

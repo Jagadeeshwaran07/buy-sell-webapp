@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<UserEntity,Long> {
 
     Optional<UserEntity> findByEmail(String email);
-
+    List<NewProductEntity> findByNtId(String ntId);
 
 }
