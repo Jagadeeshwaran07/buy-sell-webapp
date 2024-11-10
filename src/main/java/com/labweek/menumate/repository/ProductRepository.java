@@ -13,6 +13,7 @@ public interface ProductRepository extends JpaRepository<NewProductEntity, Long>
     // Custom query methods can be added if needed
     List<NewProductEntity> findByCategory(String category);
    // List<NewProductEntity> findByUserName(String ntId);
+    List<NewProductEntity> findByNtId(String ntId);
 
 
 

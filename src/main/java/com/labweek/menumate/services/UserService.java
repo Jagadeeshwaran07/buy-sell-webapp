@@ -8,6 +8,7 @@ import com.labweek.menumate.entity.NewProductEntity;
 import com.labweek.menumate.entity.UserEntity;
 import com.labweek.menumate.exceptions.AppException;
 import com.labweek.menumate.mappers.UserMapper;
+import com.labweek.menumate.repository.ProductRepository;
 import com.labweek.menumate.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ProductRepository productRepository;
+
 
     @Transactional
     public UserDto findByEmail(String email){
@@ -74,7 +77,7 @@ public class UserService {
     @Transactional
     public List<NewProductDto> getProductsByUser(String ntId) {
         // Fetch products from the repository using the user's username
-        List<NewProductEntity> products = userRepo.findByNtId(ntId);
+        List<NewProductEntity> products = productRepository.findByNtId(ntId);
         System.out.println(products);
         // Convert the entity list to DTOs and return
         return products.stream()
