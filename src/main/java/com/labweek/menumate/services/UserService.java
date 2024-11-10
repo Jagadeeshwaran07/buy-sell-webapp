@@ -79,7 +79,7 @@ public class UserService {
         // Convert the entity list to DTOs and return
         return products.stream()
                 .map(product -> NewProductDto.builder()
-                        .userName(product.getUserName())
+                        .ntId(product.getNtId())
                         .productName(product.getProductName())
                         .description(product.getDescription())
                         .purchaseDate(product.getPurchaseDate())

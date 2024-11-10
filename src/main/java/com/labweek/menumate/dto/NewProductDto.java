@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class NewProductDto {
 
-    private String userName;
+
     private String productName;
     private String description;
     private String purchaseDate;
     private String dateListed;
+    private String ntId;
     private Double price;
     private String image;
     private String category;
