@@ -72,7 +72,8 @@ public class ProductService {
             NewProductEntity existingProduct = existingProductOpt.get();
 
             // Update fields
-            existingProduct.setUserName(updatedProductDto.getUserName());
+
+            existingProduct.setNtId(updatedProductDto.getNtId());
             existingProduct.setProductName(updatedProductDto.getProductName());
             existingProduct.setDescription(updatedProductDto.getDescription());
             existingProduct.setPurchaseDate(updatedProductDto.getPurchaseDate());
@@ -113,7 +114,7 @@ public class ProductService {
                 .productName(newProductDto.getProductName())
                 .description(newProductDto.getDescription())
                 .purchaseDate(newProductDto.getPurchaseDate())
-                .userName(newProductDto.getUserName())
+                .ntId(newProductDto.getNtId())
                 .price(newProductDto.getPrice())  // Use Double for price
                 .dateListed(LocalDate.now())
                 .image(newProductDto.getImage())
@@ -127,7 +128,7 @@ public class ProductService {
         NewProductDto savedProductDto = new NewProductDto();
         savedProductDto.setProductName(savedProduct.getProductName());
         savedProductDto.setDescription(savedProduct.getDescription());
-        savedProductDto.setUserName(savedProduct.getUserName());
+        savedProductDto.setNtId(savedProduct.getNtId());
         savedProductDto.setPrice(savedProduct.getPrice());  // Use Double for price
         savedProductDto.setPurchaseDate(savedProduct.getPurchaseDate());
         savedProductDto.setDateListed(savedProduct.getDateListed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -148,7 +149,7 @@ public class ProductService {
         if (productOpt.isPresent()) {
             NewProductEntity productEntity = productOpt.get();
             return NewProductDto.builder()
-                    .userName(productEntity.getUserName())
+                    .ntId(productEntity.getNtId())
                     .productName(productEntity.getProductName())
                     .description(productEntity.getDescription())
                     .purchaseDate(productEntity.getPurchaseDate())

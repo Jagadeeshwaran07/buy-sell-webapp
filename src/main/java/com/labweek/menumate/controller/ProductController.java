@@ -26,7 +26,7 @@ public class ProductController {
     // CREATING!!
     @PostMapping("/add")
     public ResponseEntity<NewProductDto> addProduct(
-            @RequestParam("userName") String userName,
+            @RequestParam("ntId") String ntId,
             @RequestParam("productName") String productName,
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
@@ -53,7 +53,7 @@ public class ProductController {
 
         // Create DTO with image bytes
         NewProductDto newProductDto = NewProductDto.builder()
-                .userName(userName)
+                .ntId(ntId)
                 .productName(productName)
                 .description(description)
                 .purchaseDate(purchaseDate)
@@ -86,7 +86,7 @@ public class ProductController {
   @PutMapping("/{productId}")
     public ResponseEntity<NewProductDto> updateProduct(
             @PathVariable Long productId,
-            @RequestParam("userName") String userName,
+            @RequestParam("ntId") String ntId,
             @RequestParam("productName") String productName,
             @RequestParam("description") String description,
             @RequestParam("purchaseDate") String purchaseDate,
@@ -121,7 +121,7 @@ public class ProductController {
 
         // Create DTO with image bytes
         NewProductDto updatedProductDto = NewProductDto.builder()
-                .userName(userName)
+                .ntId(ntId)
                 .productName(productName)
                 .description(description)
                 .purchaseDate(purchaseDate)
