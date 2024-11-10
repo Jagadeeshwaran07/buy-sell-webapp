@@ -2,9 +2,7 @@ package com.labweek.menumate.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,7 +31,7 @@ public class NewProductEntity {
     private String purchaseDate;
 
     @Column(name = "datelisted", nullable = false)
-    private LocalDate dateListed;
+    private LocalDateTime dateListed;
 
     @Column(name = "price", nullable = false)
     private Double price;

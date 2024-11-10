@@ -17,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,7 @@ public class ProductService {
             existingProduct.setProductName(updatedProductDto.getProductName());
             existingProduct.setDescription(updatedProductDto.getDescription());
             existingProduct.setPurchaseDate(updatedProductDto.getPurchaseDate());
-            existingProduct.setDateListed(LocalDate.now());
+            existingProduct.setDateListed(LocalDateTime.now());
             existingProduct.setPrice(updatedProductDto.getPrice());
             existingProduct.setCategory(updatedProductDto.getCategory());
 
@@ -116,7 +117,7 @@ public class ProductService {
                 .purchaseDate(newProductDto.getPurchaseDate())
                 .ntId(newProductDto.getNtId())
                 .price(newProductDto.getPrice())  // Use Double for price
-                .dateListed(LocalDate.now())
+                .dateListed(LocalDateTime.now())
                 .image(newProductDto.getImage())
                 .category(newProductDto.getCategory())
                 .build();

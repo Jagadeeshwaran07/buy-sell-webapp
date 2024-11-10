@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,10 @@ public class ProductController {
 
         System.out.println("CREATING");
 
+
+
         if (dateListed == null || dateListed.isEmpty()) {
-            dateListed = LocalDate.now().toString();
+            dateListed = LocalDateTime.now().toString();  // This will include date and time with seconds
         }
 
 
@@ -97,9 +100,10 @@ public class ProductController {
 
         System.out.println("UPDATING");
 
-        if (dateListed == null || dateListed.isEmpty()) {
-            dateListed = LocalDate.now().toString();
-        }
+      if (dateListed == null || dateListed.isEmpty()) {
+          dateListed = LocalDateTime.now().toString();  // This will include date and time with seconds
+      }
+
 
       String imageUrl = null;
       try {
@@ -109,15 +113,6 @@ public class ProductController {
           e.printStackTrace();
           return ResponseEntity.status(500).body(null);  // Handle error if image upload fails
       }
-
-//      Blob imageBlob = null;
-//      if (image != null) {
-//          try {
-//              imageBlob = new SerialBlob(image.getBytes());
-//          } catch (Exception e) {
-//              e.printStackTrace();
-//          }
-//      }
 
         // Create DTO with image bytes
         NewProductDto updatedProductDto = NewProductDto.builder()
@@ -184,20 +179,6 @@ public class ProductController {
         List<NewProductEntity> searchResults = productService.searchProducts(keyword);
         return searchResults.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(searchResults);
     }
-
-//    // Endpoint to get products sorted by price (low to high)
-//    @GetMapping("/sort/price/asc")
-//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceAsc() {
-//        List<NewProductEntity> products = productService.getProductsSortedByPriceAsc();
-//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
-//    }
-//
-//    // Endpoint to get products sorted by price (high to low)
-//    @GetMapping("/sort/price/desc")
-//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceDesc() {
-//        List<NewProductEntity> products = productService.getProductsSortedByPriceDesc();
-//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
-//    }
 
     @GetMapping("/sort/price")
     public ResponseEntity<List<NewProductEntity>> getProductsSortedByPrice(
