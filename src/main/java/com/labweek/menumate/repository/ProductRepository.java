@@ -18,6 +18,7 @@ public interface ProductRepository extends JpaRepository<NewProductEntity, Long>
 
     Optional<NewProductEntity> findById(Long prodId);
 
+
     // Fetch recently listed products, ordered by dateListed descending
     List<NewProductEntity> findAllByOrderByDateListedDesc();
 
