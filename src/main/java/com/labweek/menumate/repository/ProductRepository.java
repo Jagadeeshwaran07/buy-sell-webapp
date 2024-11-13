@@ -16,7 +16,6 @@ public interface ProductRepository extends JpaRepository<NewProductEntity, Long>
     List<NewProductEntity> findByNtId(String ntId);
 
 
-
     // Fetch recently listed products, ordered by dateListed descending
     List<NewProductEntity> findAllByOrderByDateListedDesc();
 
@@ -25,7 +24,7 @@ public interface ProductRepository extends JpaRepository<NewProductEntity, Long>
     List<NewProductEntity> searchProductsByName(@Param("keyword") String keyword);
 
     // New methods for sorting by price
-    List<NewProductEntity> findAllByOrderByPriceAsc(); // Low to High
-    List<NewProductEntity> findAllByOrderByPriceDesc(); // High to Low
+    List<NewProductEntity> findByCategoryOrderByPriceAsc(String category); // Low to High
+    List<NewProductEntity> findByCategoryOrderByPriceDesc(String category); // High to Low
 
 }

@@ -180,16 +180,10 @@ public class ProductController {
         return searchResults.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(searchResults);
     }
 
-    @GetMapping("/sort/price")
-    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPrice(
+    @GetMapping("category/sort")
+    public ResponseEntity<List<NewProductEntity>> getProductsByCategoryAndSort(@RequestParam String category,
             @RequestParam(value = "order", defaultValue = "asc") String order) {
-        List<NewProductEntity> products;
-
-        if ("desc".equalsIgnoreCase(order)) {
-            products = productService.getProductsSortedByPriceDesc();
-        } else {
-            products = productService.getProductsSortedByPriceAsc();
-        }
+        List<NewProductEntity> products = productService.getProductsByCategoryAndSort(category, order);
 
         return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
     }

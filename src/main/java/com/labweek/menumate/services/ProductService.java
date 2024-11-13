@@ -184,13 +184,12 @@ public class ProductService {
 
     // Method to get products sorted by price (low to high)
     @Transactional
-    public List<NewProductEntity> getProductsSortedByPriceAsc() {
-        return productRepository.findAllByOrderByPriceAsc();  // Ascending order by price
-    }
-
-    // Method to get products sorted by price (high to low)
-    @Transactional
-    public List<NewProductEntity> getProductsSortedByPriceDesc() {
-        return productRepository.findAllByOrderByPriceDesc();  // Descending order by price
+    public List<NewProductEntity> getProductsByCategoryAndSort(String category, String order) {
+        if("desc".equals(order)) {
+            return productRepository.findByCategoryOrderByPriceDesc(category);
+        }
+        else {
+            return productRepository.findByCategoryOrderByPriceAsc(category);
+        }
     }
 }
