@@ -64,7 +64,6 @@ public class ProductService {
     }
 
 
-
     @Transactional
     public NewProductDto updateProduct(Long productId, NewProductDto updatedProductDto) {
         Optional<NewProductEntity> existingProductOpt = productRepository.findById(productId);
@@ -141,7 +140,8 @@ public class ProductService {
 
     @Transactional
     public List<NewProductEntity> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category);}
+        return productRepository.findByCategory(category);
+    }
 
 
     @Transactional(readOnly = true)
@@ -154,7 +154,6 @@ public class ProductService {
                     .productName(productEntity.getProductName())
                     .description(productEntity.getDescription())
                     .purchaseDate(productEntity.getPurchaseDate())
-                //    .dateListed(productEntity.getDateListed())
                     .price(productEntity.getPrice())
                     .category(productEntity.getCategory())
                     .image(productEntity.getImage())
@@ -163,7 +162,8 @@ public class ProductService {
             return null; // Product not found
         }
 
-}
+    }
+
     // New method to get recently listed products
     @Transactional
     public List<NewProductEntity> getRecentlyListedProducts() {
@@ -191,5 +191,11 @@ public class ProductService {
         else {
             return productRepository.findByCategoryOrderByPriceAsc(category);
         }
+    }
+
+    // In ProductService class
+    public Optional<NewProductEntity> gettProductById(Long prodId) {
+        return productRepository.findById(prodId);
+
     }
 }

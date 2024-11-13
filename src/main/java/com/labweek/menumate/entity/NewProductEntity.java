@@ -25,6 +25,7 @@ public class NewProductEntity {
     private String productName;
 
     @Column(name = "description", nullable = false)
+    @Lob
     private String description;
 
     @Column(name = "purchasedate", nullable = false)
@@ -36,18 +37,12 @@ public class NewProductEntity {
     @Column(name = "price", nullable = false)
     private Double price;
 
-//    @Column(name = "category", nullable =false)
-//    private String category;
-
     @Column(name = "category", nullable = false)
     private String category;
-
 
   //  @Basic(fetch = FetchType.EAGER)
     @Column(name = "image", nullable = false)
     private String image;
-
-    // private byte[] image; // Store the image as a byte array
 
 
 }

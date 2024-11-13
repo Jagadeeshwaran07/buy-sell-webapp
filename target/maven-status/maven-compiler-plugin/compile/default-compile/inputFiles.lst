@@ -17,6 +17,7 @@
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/config/SecurityConfig.java
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/config/UserAuthProvider.java
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/repository/ProductRepository.java
+/Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/services/EmailService.java
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/entity/SuperAdminEntity.java
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/controller/ProductController.java
 /Users/jmd138/Documents/GitHub/Buy-Sell-webapp/src/main/java/com/labweek/menumate/services/UserService.java

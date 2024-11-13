@@ -9,6 +9,7 @@ com/labweek/menumate/entity/SuperAdminEntity.class
 com/labweek/menumate/config/SecurityConfig.class
 com/labweek/menumate/dto/CredentialsDto.class
 com/labweek/menumate/dto/NewProductDto.class
+com/labweek/menumate/services/EmailService.class
 com/labweek/menumate/entity/UserEntity.class
 com/labweek/menumate/mappers/UserMapperImpl.class
 com/labweek/menumate/controller/TestEndPoint.class

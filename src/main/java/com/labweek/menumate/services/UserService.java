@@ -13,6 +13,7 @@ import com.labweek.menumate.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ import java.util.stream.Collectors;
 
 @Transactional
 public class UserService {
+
+    @Autowired
+    private UserRepo userRepository;
 
     @Autowired
     private final UserRepo userRepo;
@@ -95,6 +99,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<UserEntity> getUserByNtId(String ntId) {
+        return userRepo.findByNtId(ntId);
+    }
 
 
 }

@@ -2,9 +2,12 @@ package com.labweek.menumate.controller;
 
 import com.labweek.menumate.dto.NewProductDto;
 import com.labweek.menumate.entity.NewProductEntity;
+import com.labweek.menumate.services.EmailService;
 import com.labweek.menumate.services.ProductService;
+import com.labweek.menumate.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,10 +22,16 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private ProductService.S3Service s3Service;
 
     @Autowired
     private ProductService productService; // private ProductService productAddService;
+
+    @Autowired
+    private UserService userService; // Service to get user info by ntId
 
     // CREATING!!
     @PostMapping("/add")
@@ -83,9 +92,10 @@ public class ProductController {
         }
     }
 
+
+
     // UPDATING!!!!
 
-  //  @PutMapping("/{productId}")
   @PutMapping("/{productId}")
     public ResponseEntity<NewProductDto> updateProduct(
             @PathVariable Long productId,

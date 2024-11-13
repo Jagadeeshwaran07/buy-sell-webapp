@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<NewProductEntity, Long> {
@@ -15,6 +16,7 @@ public interface ProductRepository extends JpaRepository<NewProductEntity, Long>
    // List<NewProductEntity> findByUserName(String ntId);
     List<NewProductEntity> findByNtId(String ntId);
 
+    Optional<NewProductEntity> findById(Long prodId);
 
     // Fetch recently listed products, ordered by dateListed descending
     List<NewProductEntity> findAllByOrderByDateListedDesc();
