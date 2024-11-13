@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,10 @@ public class ProductController {
 
         System.out.println("CREATING");
 
+
+
         if (dateListed == null || dateListed.isEmpty()) {
-            dateListed = LocalDate.now().toString();
+            dateListed = LocalDateTime.now().toString();  // This will include date and time with seconds
         }
 
 
@@ -82,8 +85,8 @@ public class ProductController {
 
     // UPDATING!!!!
 
-  //  @PutMapping("/{productId}")
-  @PutMapping("/{productId}")
+    //  @PutMapping("/{productId}")
+    @PutMapping("/{productId}")
     public ResponseEntity<NewProductDto> updateProduct(
             @PathVariable Long productId,
             @RequestParam("ntId") String ntId,
@@ -98,26 +101,18 @@ public class ProductController {
         System.out.println("UPDATING");
 
         if (dateListed == null || dateListed.isEmpty()) {
-            dateListed = LocalDate.now().toString();
+            dateListed = LocalDateTime.now().toString();  // This will include date and time with seconds
         }
 
-      String imageUrl = null;
-      try {
-          // Upload the image to S3 and get the URL
-          imageUrl = s3Service.uploadFile(image);
-      } catch (Exception e) {
-          e.printStackTrace();
-          return ResponseEntity.status(500).body(null);  // Handle error if image upload fails
-      }
 
-//      Blob imageBlob = null;
-//      if (image != null) {
-//          try {
-//              imageBlob = new SerialBlob(image.getBytes());
-//          } catch (Exception e) {
-//              e.printStackTrace();
-//          }
-//      }
+        String imageUrl = null;
+        try {
+            // Upload the image to S3 and get the URL
+            imageUrl = s3Service.uploadFile(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);  // Handle error if image upload fails
+        }
 
         // Create DTO with image bytes
         NewProductDto updatedProductDto = NewProductDto.builder()
@@ -166,7 +161,7 @@ public class ProductController {
         // Check if products were found for the category
         if (products.isEmpty()) {
             return ResponseEntity.noContent().build(); // Return 204 No Content if no products found
-            }
+        }
         // Return the list of products found for the category
         return ResponseEntity.ok(products);}
 
@@ -185,33 +180,17 @@ public class ProductController {
         return searchResults.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(searchResults);
     }
 
-//    // Endpoint to get products sorted by price (low to high)
-//    @GetMapping("/sort/price/asc")
-//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceAsc() {
-//        List<NewProductEntity> products = productService.getProductsSortedByPriceAsc();
-//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
-//    }
-//
-//    // Endpoint to get products sorted by price (high to low)
-//    @GetMapping("/sort/price/desc")
-//    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPriceDesc() {
-//        List<NewProductEntity> products = productService.getProductsSortedByPriceDesc();
-//        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
-//    }
-
-    @GetMapping("/sort/price")
-    public ResponseEntity<List<NewProductEntity>> getProductsSortedByPrice(
+    //Endpoint for displaying products - Sort by price for specific category
+    @GetMapping("/category/sort")
+    public ResponseEntity<List<NewProductEntity>> getProductsByCategoryAndSort(
+            @RequestParam String category,
             @RequestParam(value = "order", defaultValue = "asc") String order) {
-        List<NewProductEntity> products;
 
-        if ("desc".equalsIgnoreCase(order)) {
-            products = productService.getProductsSortedByPriceDesc();
-        } else {
-            products = productService.getProductsSortedByPriceAsc();
-        }
+        List<NewProductEntity> products = productService.getProductsByCategoryAndSort(category, order);
 
         return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
     }
+
 
 
 

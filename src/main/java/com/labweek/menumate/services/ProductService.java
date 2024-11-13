@@ -17,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,7 @@ public class ProductService {
             existingProduct.setProductName(updatedProductDto.getProductName());
             existingProduct.setDescription(updatedProductDto.getDescription());
             existingProduct.setPurchaseDate(updatedProductDto.getPurchaseDate());
-            existingProduct.setDateListed(LocalDate.now());
+            existingProduct.setDateListed(LocalDateTime.now());
             existingProduct.setPrice(updatedProductDto.getPrice());
             existingProduct.setCategory(updatedProductDto.getCategory());
 
@@ -116,7 +117,7 @@ public class ProductService {
                 .purchaseDate(newProductDto.getPurchaseDate())
                 .ntId(newProductDto.getNtId())
                 .price(newProductDto.getPrice())  // Use Double for price
-                .dateListed(LocalDate.now())
+                .dateListed(LocalDateTime.now())
                 .image(newProductDto.getImage())
                 .category(newProductDto.getCategory())
                 .build();
@@ -153,7 +154,7 @@ public class ProductService {
                     .productName(productEntity.getProductName())
                     .description(productEntity.getDescription())
                     .purchaseDate(productEntity.getPurchaseDate())
-                //    .dateListed(productEntity.getDateListed())
+                    //    .dateListed(productEntity.getDateListed())
                     .price(productEntity.getPrice())
                     .category(productEntity.getCategory())
                     .image(productEntity.getImage())
@@ -162,7 +163,7 @@ public class ProductService {
             return null; // Product not found
         }
 
-}
+    }
     // New method to get recently listed products
     @Transactional
     public List<NewProductEntity> getRecentlyListedProducts() {
@@ -181,15 +182,14 @@ public class ProductService {
         return products;
     }
 
-    // Method to get products sorted by price (low to high)
+    // Method to get products sorted by price (low to high) - For specific category
     @Transactional
-    public List<NewProductEntity> getProductsSortedByPriceAsc() {
-        return productRepository.findAllByOrderByPriceAsc();  // Ascending order by price
+    public List<NewProductEntity> getProductsByCategoryAndSort(String category, String order) {
+        if ("desc".equalsIgnoreCase(order)) {
+            return productRepository.findByCategoryOrderByPriceDesc(category);
+        } else {
+            return productRepository.findByCategoryOrderByPriceAsc(category);
+        }
     }
 
-    // Method to get products sorted by price (high to low)
-    @Transactional
-    public List<NewProductEntity> getProductsSortedByPriceDesc() {
-        return productRepository.findAllByOrderByPriceDesc();  // Descending order by price
-    }
 }

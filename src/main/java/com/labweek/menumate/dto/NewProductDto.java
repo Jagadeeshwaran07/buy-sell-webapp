@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class NewProductDto {
 
-
+    private Long id;
     private String productName;
     private String description;
     private String purchaseDate;
