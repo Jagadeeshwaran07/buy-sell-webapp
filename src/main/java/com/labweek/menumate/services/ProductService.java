@@ -193,11 +193,7 @@ public class ProductService {
         }
     }
 
-    // In ProductService class
-    public Optional<NewProductEntity> gettProductById(Long prodId) {
-        return productRepository.findById(prodId);
 
-    }
 
     // In ProductService class
     public Optional<NewProductEntity> gettProductById(Long prodId) {
@@ -205,21 +201,4 @@ public class ProductService {
 
     }
 
-    // In ProductService class
-    public Optional<NewProductEntity> gettProductById(Long prodId) {
-        return productRepository.findById(prodId);
-
-    }
-
-    // In ProductService class
-    public Optional<NewProductEntity> gettProductById(Long prodId) {
-        return productRepository.findById(prodId);
-
-    }
-
-    // In ProductService class
-    public Optional<NewProductEntity> gettProductById(Long prodId) {
-        return productRepository.findById(prodId);
-
-    }
 }
