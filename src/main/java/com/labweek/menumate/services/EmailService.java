@@ -18,4 +18,16 @@ public class EmailService {
         message.setText(body);
         mailSender.send(message);
     }
+
+    public void sendOtpEmail(String toEmail, int otp) {
+        // Create a simple email message
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Registration OTP Confirmation");
+        message.setText("Thanks for registering with Comcast Buy & Sell\n" +
+                "Please use this OTP to confirm your registration: " + otp);
+
+        // Send the email
+        mailSender.send(message);
+    }
 }
